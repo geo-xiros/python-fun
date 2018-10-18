@@ -14,7 +14,7 @@ winTests = (((2,3),(4,7),(5,9)),        #1
             ((7,9),(2,5)),              #8
             ((7,8),(3,6),(1,5)))        #9
 
-PlayersChoices = ['1','2','3','4','5','6','7','8','9']
+RemainingChoices = ['1','2','3','4','5','6','7','8','9']
 
 def player_wins(player, pos):
     
@@ -39,35 +39,36 @@ def print_board():
 
 def player_choice(player):
     inp = input(player + ' select from 1 to 9: ')
-    while len(inp)!=1 or not inp.isnumeric() or not inp in PlayersChoices:
+    while len(inp)!=1 or not inp.isnumeric() or not inp in RemainingChoices:
         inp = input(player + ' select from 1 to 9: ')
-    PlayersChoices.remove(inp)
+    RemainingChoices.remove(inp)
     return int(inp)-1
 
 def computer_choice(player):
-    rand = random.choice(PlayersChoices)
-    PlayersChoices.remove(rand)
+    rand = find_winning_move('o')
+    if rand == '0':
+        rand = find_winning_move('x')
+        print('smart choice: ' + rand)
+    if rand == '0':
+        rand = random.choice(RemainingChoices)
+        
+    RemainingChoices.remove(rand)
     print (player + ' selection is ' + rand)
     return int(rand)-1
 
-def last_move(playerLetter):
-    for i in PlayersChoices:
+def find_winning_move(playerLetter):
+    for i in RemainingChoices:
         if player_wins(playerLetter,int(i)-1):
-            return int(i)-1
-    return 0
+            return i
+    return '0'
 
-def next_choice(playerLetter, player):
-    pc = last_move(playerLetter)
-    if pc != 0:
-        return pc
-    return player_choice(player)
     
 def play_game(players, playersLetter, choiceFunc):
-    
+
     player = 0
     print_board()
     
-    while len(PlayersChoices) != 0:
+    while len(RemainingChoices) != 0:
 
         playerChoice = choiceFunc[player](players[player])
         
@@ -85,5 +86,4 @@ def play_game(players, playersLetter, choiceFunc):
 
 #print(play_game(['Player x','Player o'], ['x','o'],[player_choice, player_choice]) + ' Wins !!!')
 print(play_game(['Player x','Computer o'], ['x','o'],[player_choice, computer_choice]) + ' Wins !!!')
-
 
