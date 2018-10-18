@@ -11,6 +11,7 @@ winTests = (((2,3),(4,7),(5,9)),        #1
             ((1,4),(8,9),(5,3)),        #7
             ((7,9),(2,5)),              #8
             ((7,8),(3,6),(1,5)))        #9
+PlayersChoices = []
 
 def player_wins(player, pos):
     
@@ -34,8 +35,9 @@ def print_board():
 
 def player_choice(player):
     inp = input(player + ' select from 1 to 9: ')
-    while len(inp)!=1 or not inp.isnumeric():
+    while len(inp)!=1 or not inp.isnumeric() or inp in PlayersChoices:
         inp = input(player + ' select from 1 to 9: ')
+    PlayersChoices.append(inp)
     return int(inp)-1
     
 def play_game(players, playersLetter):
