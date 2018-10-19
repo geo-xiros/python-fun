@@ -32,12 +32,11 @@ def player_wins(player, pos):
 # Print the board        
 def print_board():
     for i in range(0,9,3):
-        print('      |      |      ')
-        print('  ' + board[i] + board[i] + '  |  ' + board[i+1] + board[i+1] + '  |  ' + board[i+2] + board[i+2] + '  ')
-        print('  ' + board[i] + board[i] + '  |  ' + board[i+1] + board[i+1] + '  |  ' + board[i+2] + board[i+2] + '  ')
-        print('      |      |      ')
+        print('   |   |   ')
+        print(' ' + board[i] + ' | ' + board[i+1] + ' | ' + board[i+2] + ' ')
+        print('   |   |   ')
         if i<=3:
-            print('------|------|------')
+            print('---|---|---')
 
 # Ask for Player choice 
 def player_choice(player):
