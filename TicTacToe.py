@@ -16,6 +16,7 @@ winTests = (((2,3),(4,7),(5,9)),        #1
 
 RemainingChoices = ['1','2','3','4','5','6','7','8','9']
 
+# Check if player (x or o) wins in position (pos)
 def player_wins(player, pos):
     
     for i in winTests[pos]:
@@ -28,6 +29,7 @@ def player_wins(player, pos):
             
     return False    
         
+# Print the board        
 def print_board():
     for i in range(0,9,3):
         print('      |      |      ')
@@ -37,34 +39,51 @@ def print_board():
         if i<=3:
             print('------|------|------')
 
+# Ask for Player choice 
 def player_choice(player):
     inp = input(player + ' select from 1 to 9: ')
+    
+    # choice must be one char, numeric and within remaining tiles
     while len(inp)!=1 or not inp.isnumeric() or not inp in RemainingChoices:
         inp = input(player + ' select from 1 to 9: ')
+    
+    # remove choice from available tiles
     RemainingChoices.remove(inp)
+
     return int(inp)-1
 
+# Computer choose tile
 def computer_choice(player):
+    # Block other player
     rand = find_winning_move('o')
+
+    # Find winning tile
     if rand == '0':
         rand = find_winning_move('x')
-        print('smart choice: ' + rand)
+    
+    # Random tile
     if rand == '0':
         rand = random.choice(RemainingChoices)
-        
+    
+    # remove from available choices
     RemainingChoices.remove(rand)
+
     print (player + ' selection is ' + rand)
     return int(rand)-1
 
+# Check all remaining tiles to find a winning move
 def find_winning_move(playerLetter):
     for i in RemainingChoices:
+        # return tile number if it wins
         if player_wins(playerLetter,int(i)-1):
             return i
+        
     return '0'
 
-    
-def play_game(players, playersLetter, choiceFunc):
 
+# Play the game
+def play_game(players, playersLetter, choiceFunc):
+    
     player = 0
     print_board()
     
